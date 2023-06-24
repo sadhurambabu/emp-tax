@@ -8,13 +8,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "employee",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"firstName"}),
-        })
+@Table(name = "employee")
 public class Employee {
 
     @Id
