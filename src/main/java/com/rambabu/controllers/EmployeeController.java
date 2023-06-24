@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -20,18 +21,14 @@ public class EmployeeController {
 
     @PostMapping("/employee")
     public ResponseEntity<?> saveEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
-        Employee employee = new Employee();
-        employee.setName(employeeRequest.getName());
+        Employee employee = Employee.buildEmployeeFromReq(employeeRequest);
         employeeRepository.save(employee);
-
         return ResponseEntity.ok(new MessageResponse("Employee saved successfully!"));
     }
 
-    @GetMapping("/employee")
-    public ResponseEntity<?> getEmployeeDetails() {
-        return ResponseEntity.ok(new MessageResponse("return emp"));
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity<?> getEmployeeDetails(@PathVariable Long employeeId) {
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        return ResponseEntity.ok(employee.get());
     }
-
-
-
 }
